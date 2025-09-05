@@ -434,14 +434,34 @@
         .contact-info {
             display: flex;
             flex-direction: column;
-            gap: 2rem;
+            gap: 20px;
+            width: 100%;
+            box-sizing: border-box;
         }
         
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+        .contact-item p {
+            white-space: nowrap;        /* يمنع النص من الانكسار على السطر */
+            overflow: hidden;           /* يخفي أي جزء زائد عن العنصر */
+            text-overflow: ellipsis;    /* يضيف ... لو النص طويل */
+            max-width: 100%;            /* يمنع تجاوز مساحة المربع */
         }
+        
+                
+        @media (max-width: 768px) {
+            .contact-container {
+                padding: 2rem;  /* يصغر المسافة على الموبايل */
+            }
+
+            .contact-info,
+            .contact-form {
+                width: 100%;
+            }
+
+            .social-links a {
+                font-size: 1.2rem; /* تصغير الأيقونات لو كبيرة */
+            }
+        }
+
         
         .contact-icon {
             width: 50px;
@@ -458,7 +478,17 @@
         .contact-form {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 15px;
+            width: 100%;
+            box-sizing: border-box; /* مهم عشان padding ما يوسعش العنصر برا */
+        }
+        .contact-form .form-input,
+        .contact-form .form-textarea {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box; /* يحافظ على الحدود padding */
+            padding: 10px;
+            border-radius: 8px;
         }
         
         .form-group {
@@ -849,8 +879,8 @@
         <div class="about-content glass">
             <div class="about-text">
             <p style="font-size: 17px;">
-                I'm Mohamed Faisal, a second-year student at the Faculty of Computers and Artificial Intelligence, Cairo University.<br>
-                I'm passionate about exploring how machine learning and deep learning can transform real-world applications, with a particular interest in building intelligent systems that understand and process human language. Currently, I am developing my skills through academic studies and practical challenges.<br>
+                I am Mohamed Faisal, a second-year student at the Faculty of Computers and Artificial Intelligence, Cairo University.<br>
+                I am passionate about exploring how machine learning and deep learning can transform real-world applications, with a particular interest in building intelligent systems that understand and process human language. Currently, I am developing my skills through academic studies and practical challenges.<br>
                 My vision is to bridge academic knowledge with industry-level expertise, contributing to impactful AI solutions.<br>
                 Always learning. Always building. Always pushing boundaries.
             </p>
@@ -1052,7 +1082,7 @@
         
         <!-- Contact Section -->
         <section id="contact" class="section">
-            <h2 class="section-title">Get In Touch</h2>
+            <h2 class="section-title">Contact with me</h2>
             <div class="contact-container glass" style="padding: 3rem;">
                 <div class="contact-info">
                     
@@ -1469,6 +1499,7 @@
 </script>
 </body>
 </html>
+
 
 
 
