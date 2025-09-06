@@ -828,6 +828,80 @@
             background: gray;      /* ممكن تغير اللون لأي لون "مقفول" */
         }
 
+
+        /* Mobile Sidebar */
+        .mobile-sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100vh;
+            background: var(--dark);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1001;
+            transition: right 0.3s ease;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .mobile-sidebar.active {
+            right: 0;
+        }
+
+        .mobile-sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-close {
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .mobile-nav {
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 1.5rem;
+            gap: 1rem;
+        }
+
+        .mobile-nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-nav a:hover {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
     </style>
 </head>
 <body>
@@ -844,17 +918,39 @@
                 <i class="fas fa-code logo-icon"></i>
                 <span>Mohamed Faisal</span>
             </div>
-            <nav>
+<nav class="sidebar">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+</nav>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </header>
+
+
+        <!-- Mobile Sidebar Menu -->
+        <div class="mobile-sidebar" id="mobileSidebar">
+            <div class="mobile-sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-code logo-icon"></i>
+                    Mohamed Faisal
+                </div>
+                <button class="sidebar-close" id="sidebarClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="mobile-nav">
                 <a href="#home">Home</a>
                 <a href="#about">About</a>
                 <a href="#skills">Skills</a>
                 <a href="#projects">Projects</a>
                 <a href="#contact">Contact</a>
             </nav>
-            <button class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </button>
-        </header>
+        </div>
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
         
         <!-- Hero Section -->
         <section id="home" class="hero">
@@ -1287,6 +1383,7 @@
         `;
 
         // تهيئة الخلفية ثلاثية الأبعاد (Vanta.NET)
+
         let isMobile = window.innerWidth < 768; // أي شاشة أقل من 768px نعتبرها موبايل
 
         VANTA.NET({
@@ -1297,6 +1394,7 @@
             maxDistance: isMobile ? 15 : 30,    // خطوط أقصر على الموبايل
             spacing: isMobile ? 20 : 25         // مسافات متوسطة
         });
+
 
         // تشغيل/إخفاء قائمة الموبايل
         const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
@@ -1499,8 +1597,38 @@
         animateCode();
     }); // نهاية حدث DOMContentLoaded
 </script>
+
+// Mobile Sidebar Toggle
+const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+const mobileSidebar = document.getElementById('mobileSidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+const sidebarClose = document.getElementById('sidebarClose');
+
+function openSidebar() {
+    mobileSidebar.classList.add('active');
+    sidebarOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden'; // منع التمرير
+}
+
+function closeSidebar() {
+    mobileSidebar.classList.remove('active');
+    sidebarOverlay.classList.remove('active');
+    document.body.style.overflow = 'auto'; // إرجاع التمرير
+}
+
+mobileMenuBtn.addEventListener('click', openSidebar);
+sidebarClose.addEventListener('click', closeSidebar);
+sidebarOverlay.addEventListener('click', closeSidebar);
+
+// قفل القائمة لو ضغط على أي لينك جواها
+document.querySelectorAll('.mobile-nav a').forEach(link => {
+    link.addEventListener('click', closeSidebar);
+});
+
+
 </body>
 </html>
+
 
 
 
