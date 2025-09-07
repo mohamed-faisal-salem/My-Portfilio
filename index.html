@@ -158,6 +158,79 @@
             cursor: pointer;
         }
         
+        /* Mobile Sidebar */
+        .mobile-sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100vh;
+            background: var(--dark);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1001;
+            transition: right 0.3s ease;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .mobile-sidebar.active {
+            right: 0;
+        }
+
+        .mobile-sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-close {
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .mobile-nav {
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 1.5rem;
+            gap: 1rem;
+        }
+
+        .mobile-nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-nav a:hover {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
         /* Hero Section */
         .hero {
             min-height: 100vh;
@@ -439,29 +512,18 @@
             box-sizing: border-box;
         }
         
-        .contact-item p {
-            white-space: nowrap;        /* يمنع النص من الانكسار على السطر */
-            overflow: hidden;           /* يخفي أي جزء زائد عن العنصر */
-            text-overflow: ellipsis;    /* يضيف ... لو النص طويل */
-            max-width: 100%;            /* يمنع تجاوز مساحة المربع */
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
         
-                
-        @media (max-width: 768px) {
-            .contact-container {
-                padding: 2rem;  /* يصغر المسافة على الموبايل */
-            }
-
-            .contact-info,
-            .contact-form {
-                width: 100%;
-            }
-
-            .social-links a {
-                font-size: 1.2rem; /* تصغير الأيقونات لو كبيرة */
-            }
+        .contact-item p {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
         }
-
         
         .contact-icon {
             width: 50px;
@@ -480,13 +542,14 @@
             flex-direction: column;
             gap: 15px;
             width: 100%;
-            box-sizing: border-box; /* مهم عشان padding ما يوسعش العنصر برا */
+            box-sizing: border-box;
         }
+        
         .contact-form .form-input,
         .contact-form .form-textarea {
             width: 100%;
             max-width: 100%;
-            box-sizing: border-box; /* يحافظ على الحدود padding */
+            box-sizing: border-box;
             padding: 10px;
             border-radius: 8px;
         }
@@ -771,6 +834,19 @@
             .projects-container {
                 grid-template-columns: 1fr;
             }
+
+            .contact-container {
+                padding: 2rem;
+            }
+
+            .contact-info,
+            .contact-form {
+                width: 100%;
+            }
+
+            .social-links a {
+                font-size: 1.2rem;
+            }
         }
         
         @media (max-width: 480px) {
@@ -787,119 +863,44 @@
             }
         }
 
-
         #about {
-        position: relative;
+            position: relative;
         }
 
         .about-text {
-        padding: 20px; /* يعمل مسافة بين النص وحدود المستطيل */
+            padding: 20px;
         }
 
         .about-text p {
-        margin-bottom: 20px; /* مسافة تحت النص قبل الزرار */
+            margin-bottom: 20px;
         }
 
         .cv-btn-wrapper {
-        display: flex;
-        justify-content: flex-start; /* ناحية الشمال مع النص */
-        margin-top: 10px;  /* مسافة صغيرة بينه وبين النص */
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 10px;
         }
 
         .cv-btn-wrapper .btn {
-        padding: 12px 24px;
-        font-size: 16px;
-        border-radius: 25px;
-        background: var(--gradient);
-        color: white;
-        text-decoration: none;
-        transition: all 0.3s ease;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 25px;
+            background: var(--gradient);
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
         }
 
         .cv-btn-wrapper .btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
         }
 
         .btn.disabled {
-            pointer-events: none;  /* يمنع الضغط */
-            opacity: 0.5;          /* يخلي لونه باهت كأنه مقفول */
-            cursor: not-allowed;   /* يظهر مؤشر ممنوع */
-            background: gray;      /* ممكن تغير اللون لأي لون "مقفول" */
-        }
-
-
-        /* Mobile Sidebar */
-        .mobile-sidebar {
-            position: fixed;
-            top: 0;
-            right: -300px;
-            width: 300px;
-            height: 100vh;
-            background: var(--dark);
-            border-left: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 1001;
-            transition: right 0.3s ease;
-            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .mobile-sidebar.active {
-            right: 0;
-        }
-
-        .mobile-sidebar-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .sidebar-close {
-            background: none;
-            border: none;
-            color: var(--light);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        .mobile-nav {
-            display: flex;
-            flex-direction: column;
-            padding: 2rem 1.5rem;
-            gap: 1rem;
-        }
-
-        .mobile-nav a {
-            color: var(--light);
-            text-decoration: none;
-            font-weight: 500;
-            padding: 1rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .mobile-nav a:hover {
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--primary);
-        }
-
-        .sidebar-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .sidebar-overlay.active {
-            opacity: 1;
-            visibility: visible;
+            pointer-events: none;
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: gray;
         }
 
     </style>
@@ -918,18 +919,17 @@
                 <i class="fas fa-code logo-icon"></i>
                 <span>Mohamed Faisal</span>
             </div>
-<nav class="sidebar">
-    <a href="#home">Home</a>
-    <a href="#about">About</a>
-    <a href="#skills">Skills</a>
-    <a href="#projects">Projects</a>
-    <a href="#contact">Contact</a>
-</nav>
+            <nav class="sidebar">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </nav>
             <button class="mobile-menu-btn">
                 <i class="fas fa-bars"></i>
             </button>
         </header>
-
 
         <!-- Mobile Sidebar Menu -->
         <div class="mobile-sidebar" id="mobileSidebar">
@@ -971,35 +971,29 @@
         
         <!-- About Section -->
         <section id="about" class="section">
-        <h2 class="section-title">About Me</h2>
-        <div class="about-content glass">
-            <div class="about-text">
-            <p style="font-size: 17px;">
-                I am Mohamed Faisal, a second-year student at the Faculty of Computers and Artificial Intelligence, Cairo University.<br>
-                I am passionate about exploring how machine learning and deep learning can transform real-world applications, with a particular interest in building intelligent systems that understand and process human language. Currently, I am developing my skills through academic studies and practical challenges.<br>
-                My vision is to bridge academic knowledge with industry-level expertise, contributing to impactful AI solutions.<br>
-                Always learning. Always building. Always pushing boundaries.
-            </p>
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content glass">
+                <div class="about-text">
+                    <p style="font-size: 17px;">
+                        I am Mohamed Faisal, a second-year student at the Faculty of Computers and Artificial Intelligence, Cairo University.<br>
+                        I am passionate about exploring how machine learning and deep learning can transform real-world applications, with a particular interest in building intelligent systems that understand and process human language. Currently, I am developing my skills through academic studies and practical challenges.<br>
+                        My vision is to bridge academic knowledge with industry-level expertise, contributing to impactful AI solutions.<br>
+                        Always learning. Always building. Always pushing boundaries.
+                    </p>
 
-            <!-- زرار CV جوه نفس المستطيل وتحت النص -->
+                    <div class="cv-btn-wrapper">
+                        <a href="#" class="btn btn-primary disabled" title="CV coming soon">
+                            <i class="fas fa-download"></i> Download CV
+                        </a>
+                    </div>
+                </div>
 
-            <div class="cv-btn-wrapper">
-                <a href="#" class="btn btn-primary disabled" title="CV coming soon">
-                    <i class="fas fa-download"></i> Download CV
-                </a>
+                <div class="about-image">
+                    <img src="my_photo.png" alt="Mohamed Faisal"
+                        style="width:100%; height:100%; object-fit: cover; border-radius: 10px;">
+                </div>
             </div>
-
-
-            </div>
-
-            <div class="about-image">
-            <img src="my_photo.png" alt="Mohamed Faisal"
-                style="width:100%; height:100%; object-fit: cover; border-radius: 10px;">
-            </div>
-        </div>
         </section>
-
-
         
         <!-- Skills Section -->
         <section id="skills" class="section">
@@ -1068,7 +1062,6 @@
             </div>
         </section>
 
-
         <!-- Projects Section -->
         <section id="projects" class="section">
             <h2 class="section-title">Featured Projects</h2>
@@ -1104,85 +1097,14 @@
                         </div>
                     </div>
                 </div>
-
-
-                
-                <!-- Project 2 -->
-                <!-- <div class="project-card glass">
-                    <div class="project-image">
-                        <div style="width:100%;height:100%;background:linear-gradient(135deg, #ec4899, #f43f5e);display:flex;align-items:center;justify-content:center;color:white;">
-                            <i class="fas fa-robot" style="font-size:3rem;"></i>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Smart Chatbot Framework</h3>
-                        <p class="project-description">Modular chatbot system with NLP capabilities that can be integrated into various platforms.</p>
-                        <div class="project-tags">
-                            <span class="project-tag">Python</span>
-                            <span class="project-tag">NLTK</span>
-                            <span class="project-tag">Transformers</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#" class="btn btn-secondary" style="padding: 0.5rem 1rem;">
-                                <i class="fas fa-external-link-alt"></i> Live Demo
-                            </a>
-                            <a href="#" class="btn btn-secondary" style="padding: 0.5rem 1rem;">
-                                <i class="fab fa-github"></i> Code
-                            </a>
-                        </div>
-                    </div>
-                </div> -->
-                
-                <!-- Project 3 -->
-                <!-- <div class="project-card glass">
-                    <div class="project-image">
-                        <div style="width:100%;height:100%;background:linear-gradient(135deg, #10b981, #059669);display:flex;align-items:center;justify-content:center;color:white;">
-                            <i class="fas fa-chart-line" style="font-size:3rem;"></i>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Financial Predictor</h3>
-                        <p class="project-description">Machine learning model that analyzes market trends and predicts stock movements with 85% accuracy.</p>
-                        <div class="project-tags">
-                            <span class="project-tag">Python</span>
-                            <span class="project-tag">Scikit-learn</span>
-                            <span class="project-tag">Pandas</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#" class="btn btn-secondary" style="padding: 0.5rem 1rem;">
-                                <i class="fas fa-external-link-alt"></i> Live Demo
-                            </a>
-                            <a href="#" class="btn btn-secondary" style="padding: 0.5rem 1rem;">
-                                <i class="fab fa-github"></i> Code
-                            </a>
-                        </div>
-                    </div>
-                </div> -->
             </div>
         </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         
         <!-- Contact Section -->
         <section id="contact" class="section">
             <h2 class="section-title">Contact with me</h2>
             <div class="contact-container glass" style="padding: 3rem;">
                 <div class="contact-info">
-                    
-                    
                     <div class="contact-item">
                         <div class="contact-icon">
                             <i class="fas fa-phone-alt"></i>
@@ -1203,7 +1125,6 @@
                         </div>
                     </div>
 
-                                        
                     <div class="contact-item">
                         <div class="contact-icon">
                             <i class="fab fa-google"></i>
@@ -1213,9 +1134,6 @@
                             <p>engmohamedfaisal06@gmail.com</p>
                         </div>
                     </div>
-
-
-
 
                     <div class="social-links">
                         <a href="https://www.linkedin.com/in/mohamed-faisal-748051360/" class="social-link" target="_blank" rel="noopener noreferrer">
@@ -1228,64 +1146,36 @@
                             <i class="fab fa-facebook-f"></i>
                         </a>
                     </div>
-                    
                 </div>
                 
-
-
-
                 <form class="contact-form" id="contact-form">
-                <div class="form-group">
-                    <label for="name" class="form-label">Name</label>
-                    <input type="text" id="name" name="name" class="form-input" placeholder="Your Name" required>
-                </div>
+                    <div class="form-group">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" id="name" name="name" class="form-input" placeholder="Your Name" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" id="email" name="email" class="form-input" placeholder="Your Email" required>
-                </div>
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" id="email" name="email" class="form-input" placeholder="Your Email" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="subject" class="form-label">Subject</label>
-                    <input type="text" id="subject" name="subject" class="form-input" placeholder="Subject" required>
-                </div>
+                    <div class="form-group">
+                        <label for="subject" class="form-label">Subject</label>
+                        <input type="text" id="subject" name="subject" class="form-input" placeholder="Subject" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="message" class="form-label">Message</label>
-                    <textarea id="message" name="message" class="form-textarea" placeholder="Your Message" required></textarea>
-                </div>
+                    <div class="form-group">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea id="message" name="message" class="form-textarea" placeholder="Your Message" required></textarea>
+                    </div>
 
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-paper-plane"></i> Send Message
-                </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
                 </form>
-                <script>
-                document.getElementById('contact-form').addEventListener('submit', async function(e) {
-                    e.preventDefault();
-
-                    const formData = {
-                    name: document.getElementById('name').value,
-                    email: document.getElementById('email').value,
-                    subject: document.getElementById('subject').value,
-                    message: document.getElementById('message').value
-                    };
-
-                    try {
-                    const res = await fetch("http://localhost:3000/send", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(formData)
-                    });
-
-                    const data = await res.json();
-                    alert(data.msg || data.error);
-                    } catch (err) {
-                    alert("Error: " + err.message);
-                    }
-                });
-                </script>
             </div>
         </section>
+        
         <!-- Footer -->
         <footer>
             <div class="footer-links">
@@ -1313,8 +1203,7 @@
     </div>
     
     <!-- AI Chatbot -->
- <!-- AI Chatbot -->
- <div class="chatbot-container">
+    <div class="chatbot-container">
         <button class="chatbot-btn">
             <i class="fas fa-robot"></i>
         </button>
@@ -1344,11 +1233,10 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@google/generative-ai@0.4.0/dist/genai.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@google/generative-ai@0.4.0/dist/genai.umd.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
     
-    
-<script>
+    <script>
     // هذا الكود بالكامل سيتم تنفيذه بعد تحميل كل محتوى الصفحة والمكتبات
     document.addEventListener('DOMContentLoaded', (event) => {
         // هنا هتحط مفتاح Google AI بتاعك اللي نسخته
@@ -1383,7 +1271,6 @@
         `;
 
         // تهيئة الخلفية ثلاثية الأبعاد (Vanta.NET)
-
         let isMobile = window.innerWidth < 768; // أي شاشة أقل من 768px نعتبرها موبايل
 
         VANTA.NET({
@@ -1395,12 +1282,31 @@
             spacing: isMobile ? 20 : 25         // مسافات متوسطة
         });
 
-
-        // تشغيل/إخفاء قائمة الموبايل
+        // Mobile Sidebar Toggle - هنا المهم!
         const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        const nav = document.querySelector('nav');
-        mobileMenuBtn.addEventListener('click', () => {
-            nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+        const mobileSidebar = document.getElementById('mobileSidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const sidebarClose = document.getElementById('sidebarClose');
+
+        function openSidebar() {
+            mobileSidebar.classList.add('active');
+            sidebarOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSidebar() {
+            mobileSidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        mobileMenuBtn.addEventListener('click', openSidebar);
+        sidebarClose.addEventListener('click', closeSidebar);
+        sidebarOverlay.addEventListener('click', closeSidebar);
+
+        // قفل القائمة لو ضغط على أي لينك جواها
+        document.querySelectorAll('.mobile-nav a').forEach(link => {
+            link.addEventListener('click', closeSidebar);
         });
 
         // تشغيل/إخفاء نافذة الشات بوت
@@ -1417,7 +1323,7 @@
         });
 
         // معالجة إرسال نموذج الاتصال (Contact Form)
-        const contactForm = document.querySelector('.contact-form');
+        const contactForm = document.getElementById('contact-form');
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
             alert('Thank you for your message! I will get back to you soon.');
@@ -1439,16 +1345,12 @@
                     apiKey: yourAPIKey,
                 });
                 console.log("تم تهيئة Google Generative AI بنجاح.");
-                // يمكنك إزالة رسالة "جارٍ تحميل الذكاء الاصطناعي..." هنا إذا كانت لا تزال ظاهرة
             } else {
                 console.error("لم يتم تحميل مكتبة Google Generative AI بعد.");
-                // يمكن أن تحاول إعادة التحقق بعد فترة قصيرة إذا كنت ترغب في ذلك
-                // setTimeout(initializeGemini, 500); // مثال: حاول مرة أخرى بعد 0.5 ثانية
             }
         }
 
         // الأهم هنا: استمع لحدث 'load' على النافذة بالكامل
-        // هذا يضمن أن جميع الموارد الخارجية (بما في ذلك مكتبة Google AI) قد تم تحميلها
         function waitForGoogleAI() {
             const interval = setInterval(() => {
                 if (typeof google !== 'undefined' && google.generativeai) {
@@ -1531,7 +1433,6 @@
             }
         }
 
-
         // تحريك العناصر عند التمرير (GSAP)
         gsap.utils.toArray('.skill-card, .project-card').forEach(card => {
             gsap.from(card, {
@@ -1596,38 +1497,11 @@
         
         animateCode();
     }); // نهاية حدث DOMContentLoaded
-</script>
-
-// Mobile Sidebar Toggle
-const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-const mobileSidebar = document.getElementById('mobileSidebar');
-const sidebarOverlay = document.getElementById('sidebarOverlay');
-const sidebarClose = document.getElementById('sidebarClose');
-
-function openSidebar() {
-    mobileSidebar.classList.add('active');
-    sidebarOverlay.classList.add('active');
-    document.body.style.overflow = 'hidden'; // منع التمرير
-}
-
-function closeSidebar() {
-    mobileSidebar.classList.remove('active');
-    sidebarOverlay.classList.remove('active');
-    document.body.style.overflow = 'auto'; // إرجاع التمرير
-}
-
-mobileMenuBtn.addEventListener('click', openSidebar);
-sidebarClose.addEventListener('click', closeSidebar);
-sidebarOverlay.addEventListener('click', closeSidebar);
-
-// قفل القائمة لو ضغط على أي لينك جواها
-document.querySelectorAll('.mobile-nav a').forEach(link => {
-    link.addEventListener('click', closeSidebar);
-});
-
+    </script>
 
 </body>
 </html>
+
 
 
 
